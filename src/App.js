@@ -12,19 +12,21 @@ export default function App() {
 }
 
 function Screen() {
-  const [filterFrom, setFilterFrom] = useState('');
-  const [filterTo, setFilterTo] = useState('');
+  const [filterFrom, setFilterFrom] = useState("");
+  const [filterTo, setFilterTo] = useState("");
 
   const fd = data.filter((d) => {
-    if (!filterFrom && !filterTo) {return d}
-    else if (!filterFrom){
-      return parseInt(d[0].substring(0,4)) <= filterTo
-    }
-    else if (!filterTo){
-      return parseInt(d[0].substring(0,4)) >= filterFrom
-    }
-    else {
-      return parseInt(d[0].substring(0,4)) <= filterTo && parseInt(d[0].substring(0,4)) >= filterFrom 
+    if (!filterFrom && !filterTo) {
+      return d;
+    } else if (!filterFrom) {
+      return parseInt(d[0].substring(0, 4)) <= filterTo;
+    } else if (!filterTo) {
+      return parseInt(d[0].substring(0, 4)) >= filterFrom;
+    } else {
+      return (
+        parseInt(d[0].substring(0, 4)) <= filterTo &&
+        parseInt(d[0].substring(0, 4)) >= filterFrom
+      );
     }
   });
 
@@ -34,25 +36,37 @@ function Screen() {
       <Filter
         from={filterFrom}
         to={filterTo}
-        handleTo={(str) => setFilterTo(str)} 
-        handleFrom={(str) => setFilterFrom(str)}  
+        handleTo={(str) => setFilterTo(str)}
+        handleFrom={(str) => setFilterFrom(str)}
       />
     </div>
   );
 }
 
 function Filter(props) {
-  let warning = ''
-  if (props.to < props.from && props.to !== '') {
-    warning = (<p className='warning'>
-      First value must be smaller than the second value!!
-    </p>)
+  let warning = "";
+  if (props.to < props.from && props.to !== "") {
+    warning = (
+      <p className="warning">
+        First value must be smaller than the second value!!
+      </p>
+    );
   }
   return (
-    <div className='filter'>
+    <div className="filter">
       <p>Filter chart by year</p>
-      <input type='number' placeholder="From" value={props.from} onChange={(e) => props.handleFrom(e.target.value)} />
-      <input type='number' placeholder="To" value={props.to} onChange={(e) => props.handleTo(e.target.value)} />
+      <input
+        type="number"
+        placeholder="From"
+        value={props.from}
+        onChange={(e) => props.handleFrom(e.target.value)}
+      />
+      <input
+        type="number"
+        placeholder="To"
+        value={props.to}
+        onChange={(e) => props.handleTo(e.target.value)}
+      />
       {warning}
     </div>
   );
@@ -62,12 +76,12 @@ function Barchart(props) {
   const { data } = props;
 
   const [legend, setLegend] = useState({
-    date: '',
+    date: "",
     data: -1,
     isHidden: true
   });
 
-  function onLegendChange(obj){
+  function onLegendChange(obj) {
     setLegend(obj);
   }
 
@@ -82,17 +96,25 @@ function Barchart(props) {
     width: 830,
     height: 260
   };
-  
+
   const bars = data.map((d, i) => {
     const w = parseInt((chartcss.width - 5) / data.length);
     const surplusWidth = ((chartcss.width - 5) % data.length) / data.length;
-    const ctrans = "translate(" + i * (w+surplusWidth) + "px, 0px)";
+    const ctrans = "translate(" + i * (w + surplusWidth) + "px, 0px)";
     const css = {
       transform: ctrans,
       width: w,
       height: (d[1] / maxd) * (chartcss.height - 10)
     };
-    return <Bar key={"bar" + i} css={css} date={d[0]} data={d[1]} handleLegend={onLegendChange} />;
+    return (
+      <Bar
+        key={"bar" + i}
+        css={css}
+        date={d[0]}
+        data={d[1]}
+        handleLegend={onLegendChange}
+      />
+    );
   });
 
   return (
@@ -105,11 +127,23 @@ function Barchart(props) {
 
 function Bar(props) {
   return (
-    <div 
-      className="bar" 
+    <div
+      className="bar"
       style={props.css}
-      onMouseEnter={() => props.handleLegend({data: props.data, date:props.date, isHidden: false})}
-      onMouseLeave={() => props.handleLegend({data: props.data, date:props.date, isHidden: true})}
+      onMouseEnter={() =>
+        props.handleLegend({
+          data: props.data,
+          date: props.date,
+          isHidden: false
+        })
+      }
+      onMouseLeave={() =>
+        props.handleLegend({
+          data: props.data,
+          date: props.date,
+          isHidden: true
+        })
+      }
     />
   );
 }
@@ -119,9 +153,9 @@ function Legend(props) {
   const { date } = props.legend;
   const { isHidden } = props.legend;
 
-  const style =  {
-    display: isHidden ? 'none' : 'inline-block'
-  }
+  const style = {
+    display: isHidden ? "none" : "inline-block"
+  };
 
   return (
     <div className="legend" style={style}>
@@ -132,5 +166,5 @@ function Legend(props) {
 }
 
 function Header() {
-  return <h1>US GDP Data Bar Chart</h1>;
+  return <h1>US GDP Data Barchart</h1>;
 }
