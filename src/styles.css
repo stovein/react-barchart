@@ -1,0 +1,45 @@
+body {
+  background-color: #555;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.bar-chart {
+  background: #999;
+  transform: rotateX(180deg);
+  display: inline-block;
+  box-shadow: 0 0 10px 0 #555;
+  border-radius: 5px;
+}
+
+.legend {
+  color: whitesmoke;
+  background-color: #888;
+  width: 140px;
+  border-radius: 10%;
+  box-shadow: 2px 2px 2px 2px #555;
+  transform: rotateX(180deg) translate(-340px, -170px);
+}
+
+.bar {
+  display: block;
+  margin: 2px 2px;
+  background: #333;
+  position: absolute;
+}
+
+.bar:hover {
+  background: #252;
+}
+
+.filter {
+  color: whitesmoke;
+}
+
+.warning {
+  color: yellowgreen;
+  font-weight: bold;
+}
